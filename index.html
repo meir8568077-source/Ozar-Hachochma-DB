@@ -1,324 +1,779 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>היכל הזהב: המהדורה האלוהית - מ.א.ע</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700;800&family=Amatic+SC:wght@700&display=swap');
-        
-        :root {
-            --gold: #fcf6ba;
-            --main-gold: #d4af37;
-            --dark-gold: #996515;
-            --bg: #050505;
-            --success: #00E676;
-            --fail: #FF1744;
-            --glass: rgba(255, 255, 255, 0.05);
+      @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700;800&family=Amatic+SC:wght@700&display=swap");
+
+      :root {
+        --gold: #fcf6ba;
+        --main-gold: #d4af37;
+        --dark-gold: #996515;
+        --bg: #050505;
+        --success: #00e676;
+        --fail: #ff1744;
+        --glass: rgba(255, 255, 255, 0.07);
+        --glass-border: rgba(252, 246, 186, 0.22);
+        --text-muted: rgba(255, 255, 255, 0.72);
+        --shadow-gold: 0 0 50px rgba(212, 175, 55, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Assistant", sans-serif;
+        user-select: none;
+      }
+
+      body {
+        min-height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 50% 18%,
+            rgba(252, 246, 186, 0.16),
+            transparent 26%
+          ),
+          radial-gradient(circle at center, #1a150a 0%, #000 68%);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(252, 246, 186, 0.045) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(252, 246, 186, 0.045) 1px,
+            transparent 1px
+          );
+        background-size: 72px 72px;
+        mask-image: radial-gradient(circle at center, #000 0%, transparent 72%);
+        z-index: 0;
+      }
+
+      .pillar {
+        position: absolute;
+        bottom: 0;
+        width: 20vw;
+        height: 100vh;
+        background: linear-gradient(
+          0deg,
+          rgba(212, 175, 55, 0.22) 0%,
+          transparent 80%
+        );
+        filter: blur(100px);
+        z-index: 1;
+        opacity: 0.6;
+        pointer-events: none;
+        animation: pulse 4s infinite alternate;
+      }
+
+      @keyframes pulse {
+        from {
+          opacity: 0.3;
         }
+        to {
+          opacity: 0.7;
+        }
+      }
 
-        * { box-sizing: border-box; font-family: 'Assistant', sans-serif; user-select: none; margin: 0; padding: 0; }
+      .pillar-left {
+        left: -10vw;
+      }
+      .pillar-right {
+        right: -10vw;
+      }
 
+      #maggid-box {
+        position: absolute;
+        top: 2vh;
+        width: min(90vw, 900px);
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid var(--main-gold);
+        border-radius: 28px;
+        padding: 24px;
+        text-align: center;
+        box-shadow: var(--shadow-gold);
+        z-index: 1000;
+        transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transform: translateY(-160%);
+        backdrop-filter: blur(16px);
+      }
+
+      #maggid-text {
+        font-size: clamp(1.35rem, 3vw, 2.2rem);
+        font-weight: 800;
+        color: var(--gold);
+        text-shadow: 0 2px 8px #000;
+      }
+
+      .screen {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        transition: 0.5s ease-in-out;
+        padding: clamp(28px, 10vh, 100px) 5vw;
+      }
+
+      .hidden {
+        display: none !important;
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      .panel {
+        width: min(92vw, 1100px);
+        padding: clamp(24px, 4vw, 56px);
+        border: 1px solid var(--glass-border);
+        border-radius: 36px;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.09),
+          rgba(255, 255, 255, 0.025)
+        );
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.45),
+          inset 0 0 35px rgba(252, 246, 186, 0.05);
+        backdrop-filter: blur(20px);
+        text-align: center;
+      }
+
+      .gold-glow {
+        background: linear-gradient(90deg, #d4af37, #fcf6ba, #d4af37, #aa8822);
+        background-size: 300% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gold-move 4s linear infinite;
+        font-weight: 900;
+      }
+
+      @keyframes gold-move {
+        to {
+          background-position: 300% center;
+        }
+      }
+
+      .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        margin-bottom: 22px;
+        padding: 10px 30px;
+        border: 1px solid var(--main-gold);
+        border-radius: 999px;
+        color: var(--gold);
+        background: rgba(0, 0, 0, 0.32);
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .balance-container {
+        background: var(--glass);
+        border: 1px solid var(--main-gold);
+        padding: 20px 40px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+        box-shadow:
+          inset 0 0 20px rgba(212, 175, 55, 0.12),
+          var(--shadow-gold);
+      }
+
+      .balance-display {
+        font-size: clamp(3.5rem, 9vw, 5.5rem);
+        line-height: 1;
+      }
+
+      .section-title {
+        margin: 20px 0;
+        color: var(--text-muted);
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        font-weight: 300;
+      }
+
+      .bet-actions,
+      .lifeline-row,
+      .game-header {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .game-header {
+        width: min(92vw, 1100px);
+        justify-content: space-between;
+      }
+
+      .lifeline-row {
+        margin-bottom: 35px;
+        flex-wrap: wrap;
+      }
+
+      .lifeline-btn,
+      .action-btn {
+        border: 0;
+        cursor: pointer;
+        transition:
+          transform 0.25s ease,
+          filter 0.25s ease,
+          background 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      .lifeline-btn {
+        min-width: 120px;
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid var(--main-gold);
+        color: var(--gold);
+        padding: 15px 30px;
+        border-radius: 16px;
+        font-size: 1.3rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .lifeline-btn:hover:not(:disabled) {
+        background: var(--main-gold);
+        color: #000;
+        transform: translateY(-2px);
+      }
+
+      .lifeline-btn:disabled {
+        opacity: 0.2;
+        cursor: not-allowed;
+        filter: grayscale(1);
+      }
+
+      .question-card {
+        width: min(92vw, 1100px);
+        text-align: center;
+      }
+
+      #q-text {
+        margin-bottom: 5vh;
+        font-size: clamp(2rem, 6vw, 3.8rem);
+        font-weight: 800;
+        line-height: 1.2;
+        text-wrap: balance;
+      }
+
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+      }
+
+      .ans-card {
+        min-height: 132px;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.08),
+          rgba(255, 255, 255, 0.025)
+        );
+        border: 1px solid rgba(212, 175, 55, 0.26);
+        padding: 32px;
+        border-radius: 22px;
+        color: #fff;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        font-size: clamp(1.45rem, 4vw, 2.2rem);
+        font-weight: 700;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .ans-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          transparent,
+          rgba(255, 255, 255, 0.16),
+          transparent
+        );
+        transform: translateX(120%);
+        transition: transform 0.45s ease;
+      }
+
+      .ans-card:hover {
+        border-color: #fff;
+        background: rgba(212, 175, 55, 0.16);
+        transform: translateY(-5px);
+      }
+
+      .ans-card:hover::after {
+        transform: translateX(-120%);
+      }
+
+      .correct {
+        background: var(--success) !important;
+        color: #000 !important;
+        box-shadow: 0 0 30px var(--success);
+      }
+
+      .wrong {
+        background: var(--fail) !important;
+        box-shadow: 0 0 30px var(--fail);
+      }
+
+      #timer-bar {
+        width: min(92vw, 1100px);
+        height: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        margin: 25px 0;
+        overflow: hidden;
+      }
+
+      #timer-fill {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--dark-gold), var(--gold));
+        transition: width 0.1s linear;
+      }
+
+      .action-btn {
+        background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+        color: #000;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        padding: 15px 60px;
+        border-radius: 999px;
+        font-weight: 900;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .action-btn:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+
+      .all-in-btn {
+        background: #fff;
+        color: #000;
+      }
+
+      .footer-name {
+        position: fixed;
+        bottom: 15px;
+        right: 20px;
+        color: rgba(212, 175, 55, 0.5);
+        font-size: 1rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+        z-index: 100;
+      }
+
+      .manna-note {
+        margin-top: 35px;
+        color: #888;
+        font-size: 1.2rem;
+      }
+
+      #q-progress {
+        color: var(--main-gold);
+        font-size: 2.2rem;
+        font-weight: 800;
+      }
+
+      #combo-tag {
+        color: #ffd700;
+        font-size: 2.5rem;
+        font-weight: 900;
+        opacity: 0;
+        text-shadow: 0 0 15px orange;
+      }
+
+      #res-status {
+        font-size: clamp(4rem, 12vw, 8rem);
+        font-weight: 900;
+      }
+
+      #res-msg {
+        margin-bottom: 35px;
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+
+      #res-stats {
+        min-width: min(350px, 82vw);
+        margin-bottom: 35px;
+        padding: 30px;
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 1.8rem;
+        text-align: center;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(-8px, 4px);
+        }
+        75% {
+          transform: translate(8px, -4px);
+        }
+      }
+
+      .shake {
+        animation: shake 0.12s 4;
+      }
+
+      .coin {
+        position: absolute;
+        z-index: 1000;
+        font-size: 40px;
+        pointer-events: none;
+      }
+
+      @media (max-width: 720px) {
         body {
-            height: 100vh; width: 100vw; overflow: hidden;
-            background: radial-gradient(circle at center, #1a150a 0%, #000 100%);
-            color: #fff; display: flex; flex-direction: column; align-items: center;
+          overflow-y: auto;
         }
-
-        /* עמודי אש */
-        .pillar {
-            position: absolute; bottom: 0; width: 20vw; height: 100vh;
-            background: linear-gradient(0deg, rgba(212, 175, 55, 0.2) 0%, transparent 80%);
-            filter: blur(100px); z-index: 1; opacity: 0.6; pointer-events: none;
-            animation: pulse 4s infinite alternate;
-        }
-        @keyframes pulse { from { opacity: 0.3; } to { opacity: 0.7; } }
-        .pillar-left { left: -10vw; } .pillar-right { right: -10vw; }
-
-        #maggid-box {
-            position: absolute; top: 2vh; width: 85%; max-width: 900px;
-            background: rgba(0,0,0,0.95); border: 2px solid var(--main-gold);
-            border-radius: 25px; padding: 25px; text-align: center;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
-            z-index: 1000; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform: translateY(-160%);
-        }
-        /* הגדלת טקסט המגיד */
-        #maggid-text { font-size: 2.2rem; font-weight: 800; color: var(--gold); text-shadow: 0 2px 8px #000; }
-
         .screen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10; transition: 0.5s ease-in-out; padding: 10vh 5vw;
+          min-height: 100vh;
+          height: auto;
         }
-        .hidden { display: none !important; transform: scale(0.9); opacity: 0; }
-
-        .gold-glow {
-            background: linear-gradient(90deg, #d4af37, #fcf6ba, #d4af37, #aa8822);
-            background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gold-move 4s linear infinite; font-weight: 900;
+        .panel {
+          border-radius: 26px;
         }
-        @keyframes gold-move { to { background-position: 300% center; } }
-
-        .balance-container {
-            background: var(--glass); border: 1px solid var(--main-gold);
-            padding: 20px 40px; border-radius: 100px; margin-bottom: 20px;
-            box-shadow: inset 0 0 20px rgba(212,175,55,0.1);
+        .bet-actions {
+          flex-direction: column;
+          width: min(100%, 320px);
         }
-        .balance-display { font-size: 5.5rem; line-height: 1; }
-
-        .lifeline-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--main-gold);
-            color: var(--gold); padding: 15px 30px; border-radius: 15px;
-            cursor: pointer; font-weight: bold; transition: 0.3s; margin: 0 10px;
-            font-size: 1.3rem; text-transform: uppercase;
+        .bet-actions .action-btn {
+          width: 100%;
         }
-        .lifeline-btn:hover:not(:disabled) { background: var(--main-gold); color: #000; }
-        .lifeline-btn:disabled { opacity: 0.2; cursor: not-allowed; filter: grayscale(1); }
-
+        .options-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
         .ans-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.2);
-            padding: 35px; border-radius: 20px; font-size: 2.2rem; font-weight: 700;
-            color: #fff; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; overflow: hidden; text-align: center;
+          min-height: 96px;
+          padding: 22px;
         }
-        .ans-card:hover { border-color: #fff; background: rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
-        .correct { background: var(--success) !important; color: #000 !important; box-shadow: 0 0 30px var(--success); }
-        .wrong { background: var(--fail) !important; box-shadow: 0 0 30px var(--fail); }
-
-        #timer-bar { width: 85%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 25px 0; overflow: hidden; }
-        #timer-fill { width: 100%; height: 100%; background: linear-gradient(90deg, var(--dark-gold), var(--gold)); transition: width 0.1s linear; }
-
-        .action-btn {
-            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
-            border: none; color: #000; font-size: 2rem; padding: 15px 60px;
-            border-radius: 50px; font-weight: 900; cursor: pointer;
-            transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .game-header {
+          align-items: flex-start;
         }
-        .action-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
-
-        .footer-name {
-            position: fixed; bottom: 15px; right: 20px;
-            font-size: 1rem; color: rgba(212, 175, 55, 0.5);
-            letter-spacing: 1px; z-index: 100; font-weight: 300;
-        }
-
-        @keyframes shake { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(-8px, 4px); } 75% { transform: translate(8px, -4px); } }
-        .shake { animation: shake 0.12s 4; }
-        .coin { position: absolute; font-size: 40px; pointer-events: none; z-index: 1000; }
-        
-        #combo-tag { font-size: 2.5rem; color: #FFD700; text-shadow: 0 0 15px orange; font-weight: 900; opacity: 0; }
+      }
     </style>
-</head>
-<body>
-    <div class="pillar pillar-left"></div><div class="pillar pillar-right"></div>
+  </head>
+  <body>
+    <div class="pillar pillar-left"></div>
+    <div class="pillar pillar-right"></div>
     <div class="footer-name">נוצר על ידי מ.א.ע</div>
     <div id="maggid-box"><div id="maggid-text"></div></div>
 
     <div class="screen" id="bet-screen">
-        <div id="rank-display" style="font-size: 1.5rem; border: 1px solid var(--main-gold); padding: 10px 30px; border-radius: 50px; color: var(--gold); margin-bottom: 20px; font-weight: 700;">טוען...</div>
+      <div class="panel">
+        <div class="rank-badge" id="rank-display">טוען...</div>
         <div class="balance-container">
-            <div class="balance-display gold-glow" id="ui-balance">$0</div>
+          <div class="balance-display gold-glow" id="ui-balance">$0</div>
         </div>
-        <div style="margin: 20px 0; font-size: 2.2rem; font-weight: 300;">קבע את סכום ההימור:</div>
-        <div style="display: flex; gap: 20px;">
-            <button class="action-btn" onclick="prepBet(100)">$100</button>
-            <button class="action-btn" onclick="prepBet(500)">$500</button>
-            <button class="action-btn" onclick="prepBet('ALL')" style="background: #fff; color: #000;">ALL-IN</button>
+        <div class="section-title">קבע את סכום ההימור:</div>
+        <div class="bet-actions">
+          <button class="action-btn" onclick="prepBet(100)">$100</button>
+          <button class="action-btn" onclick="prepBet(500)">$500</button>
+          <button class="action-btn all-in-btn" onclick="prepBet('ALL')">
+            ALL-IN
+          </button>
         </div>
-        <div id="manna-timer" style="margin-top: 35px; color: #888; font-size: 1.2rem;">מן מהשמיים: +$1 בכל דקה</div>
+        <div class="manna-note" id="manna-timer">מן מהשמיים: +$1 בכל דקה</div>
+      </div>
     </div>
 
     <div class="screen hidden" id="game-screen">
-        <div style="display: flex; justify-content: space-between; width: 85%; align-items: center;">
-            <div id="combo-tag">COMBO 🔥</div>
-            <div id="q-progress" style="font-size: 2.2rem; color: var(--main-gold); font-weight: 800;">שאלה 1/10</div>
+      <div class="game-header">
+        <div id="combo-tag">COMBO 🔥</div>
+        <div id="q-progress">שאלה 1/10</div>
+      </div>
+      <div id="timer-bar"><div id="timer-fill"></div></div>
+      <div class="lifeline-row">
+        <button class="lifeline-btn" id="life-50" onclick="use5050()">
+          50/50
+        </button>
+        <button class="lifeline-btn" id="life-hint" onclick="useHint()">
+          רמז
+        </button>
+        <button class="lifeline-btn" id="life-skip" onclick="useSkip()">
+          דילוג
+        </button>
+      </div>
+      <div class="question-card">
+        <div id="q-text"></div>
+        <div class="options-grid" id="options-container">
+          <div class="ans-card" id="opt-0" onclick="checkAns(0)"></div>
+          <div class="ans-card" id="opt-1" onclick="checkAns(1)"></div>
+          <div class="ans-card" id="opt-2" onclick="checkAns(2)"></div>
+          <div class="ans-card" id="opt-3" onclick="checkAns(3)"></div>
         </div>
-        <div id="timer-bar"><div id="timer-fill"></div></div>
-        <div style="margin-bottom: 35px;">
-            <button class="lifeline-btn" id="life-50" onclick="use5050()">50/50</button>
-            <button class="lifeline-btn" id="life-hint" onclick="useHint()">רמז</button>
-            <button class="lifeline-btn" id="life-skip" onclick="useSkip()">דילוג</button>
-        </div>
-        <div style="text-align: center; width: 85%; max-width: 1100px;">
-            <div id="q-text" style="font-size: 3.8rem; font-weight: 800; margin-bottom: 5vh; line-height: 1.2;"></div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;" id="options-container">
-                <div class="ans-card" id="opt-0" onclick="checkAns(0)"></div>
-                <div class="ans-card" id="opt-1" onclick="checkAns(1)"></div>
-                <div class="ans-card" id="opt-2" onclick="checkAns(2)"></div>
-                <div class="ans-card" id="opt-3" onclick="checkAns(3)"></div>
-            </div>
-        </div>
+      </div>
     </div>
 
     <div class="screen hidden" id="result-screen">
-        <div id="res-status" style="font-size: 8rem; font-weight: 900;"></div>
-        <div id="res-msg" style="font-size: 3rem; margin-bottom: 35px;"></div>
-        <div id="res-stats" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; margin-bottom: 35px; min-width: 350px; text-align: center; font-size: 1.8rem;"></div>
-        <button class="action-btn" onclick="location.reload()">חזור להיכל</button>
+      <div class="panel">
+        <div id="res-status"></div>
+        <div id="res-msg"></div>
+        <div id="res-stats"></div>
+        <button class="action-btn" onclick="location.reload()">
+          חזור להיכל
+        </button>
+      </div>
     </div>
 
     <script>
-        const DB_URL = "https://raw.githubusercontent.com/Memory-Master/Ozar-Hachochma-DB/refs/heads/main/data.json"; 
-        let MASTER_DB = [];
-        let JOKES = {};
-        const BALANCE_KEY = 'gold_hall_mae_bal';
+      const DB_URL =
+        "https://raw.githubusercontent.com/Memory-Master/Ozar-Hachochma-DB/refs/heads/main/data.json";
+      let MASTER_DB = [];
+      let JOKES = {};
+      const BALANCE_KEY = "gold_hall_mae_bal";
 
-        let state = {
-            balance: parseInt(localStorage.getItem(BALANCE_KEY)) || 1000,
-            qIdx: 0, bet: 0, combo: 0,
-            roundQuestions: [],
-            lifelines: { fifty: true, hint: true, skip: true },
-            timer: null
-        };
+      const state = {
+        balance: parseInt(localStorage.getItem(BALANCE_KEY)) || 1000,
+        qIdx: 0,
+        bet: 0,
+        combo: 0,
+        roundQuestions: [],
+        lifelines: { fifty: true, hint: true, skip: true },
+        timer: null,
+      };
 
-        async function loadData() {
-            try {
-                const response = await fetch(DB_URL);
-                const data = await response.json();
-                MASTER_DB = data.MASTER_DB;
-                JOKES = data.JOKES;
-                updateUI();
-            } catch (e) {
-                console.error(e);
-                MASTER_DB = [{q:"שגיאת טעינה", a:"תיקון", w:["1","2","3"], lvl:1}];
-                updateUI();
-            }
+      async function loadData() {
+        try {
+          const response = await fetch(DB_URL);
+          const data = await response.json();
+          MASTER_DB = data.MASTER_DB;
+          JOKES = data.JOKES;
+          updateUI();
+        } catch (e) {
+          console.error(e);
+          MASTER_DB = [
+            { q: "שגיאת טעינה", a: "תיקון", w: ["1", "2", "3"], lvl: 1 },
+          ];
+          updateUI();
         }
+      }
 
-        function talk(type) {
-            if (!JOKES[type]) return;
-            const arr = JOKES[type];
-            document.getElementById('maggid-text').innerText = arr[Math.floor(Math.random() * arr.length)];
-            const box = document.getElementById('maggid-box');
-            box.style.transform = 'translateY(0)';
-            setTimeout(() => box.style.transform = 'translateY(-160%)', 4000);
+      function talk(type) {
+        if (!JOKES[type]) return;
+        const arr = JOKES[type];
+        document.getElementById("maggid-text").innerText =
+          arr[Math.floor(Math.random() * arr.length)];
+        const box = document.getElementById("maggid-box");
+        box.style.transform = "translateY(0)";
+        setTimeout(() => (box.style.transform = "translateY(-160%)"), 4000);
+      }
+
+      function updateUI() {
+        document.getElementById("ui-balance").innerText =
+          `$${state.balance.toLocaleString()}`;
+        localStorage.setItem(BALANCE_KEY, state.balance);
+        let r = "תינוק שנשבה 👶";
+        if (state.balance > 100000) r = "תנא דסייעא 👑";
+        else if (state.balance > 25000) r = "הארי שבחבורה 🦁";
+        else if (state.balance > 5000) r = "בעל קורא 📜";
+        document.getElementById("rank-display").innerText = r;
+      }
+
+      function prepBet(amt) {
+        state.bet = amt === "ALL" ? state.balance : amt;
+        if (state.bet > state.balance || state.bet <= 0) return;
+        if (amt === "ALL") talk("allin");
+        startRound();
+      }
+
+      function startRound() {
+        const getL = (l) =>
+          MASTER_DB.filter((q) => q.lvl === l).sort(() => 0.5 - Math.random());
+        state.roundQuestions = [
+          ...getL(1).slice(0, 3),
+          ...getL(2).slice(0, 4),
+          ...getL(3).slice(0, 3),
+        ];
+        if (state.roundQuestions.length < 10)
+          state.roundQuestions = MASTER_DB.slice(0, 10);
+        state.qIdx = 0;
+        state.combo = 0;
+        state.lifelines = { fifty: true, hint: true, skip: true };
+        renderLifelines();
+        document.getElementById("bet-screen").classList.add("hidden");
+        document.getElementById("game-screen").classList.remove("hidden");
+        document.getElementById("combo-tag").style.opacity = 0;
+        loadQuestion();
+      }
+
+      function loadQuestion() {
+        const q = state.roundQuestions[state.qIdx];
+        document.getElementById("q-progress").innerText =
+          `שאלה ${state.qIdx + 1}/10`;
+        document.getElementById("q-text").innerText = q.q;
+        const opts = [q.a, ...q.w].sort(() => 0.5 - Math.random());
+        for (let i = 0; i < 4; i++) {
+          const c = document.getElementById(`opt-${i}`);
+          c.innerText = opts[i];
+          c.className = "ans-card";
+          c.style.display = "";
         }
+        startTimer();
+      }
 
-        function updateUI() {
-            document.getElementById('ui-balance').innerText = `$${state.balance.toLocaleString()}`;
-            localStorage.setItem(BALANCE_KEY, state.balance);
-            let r = "תינוק שנשבה 👶";
-            if(state.balance > 100000) r = "תנא דסייעא 👑";
-            else if(state.balance > 25000) r = "הארי שבחבורה 🦁";
-            else if(state.balance > 5000) r = "בעל קורא 📜";
-            document.getElementById('rank-display').innerText = r;
-        }
-
-        function prepBet(amt) {
-            state.bet = (amt === 'ALL') ? state.balance : amt;
-            if(state.bet > state.balance || state.bet <= 0) return;
-            if(amt === 'ALL') talk('allin');
-            startRound();
-        }
-
-        function startRound() {
-            const getL = (l) => MASTER_DB.filter(q => q.lvl === l).sort(() => 0.5 - Math.random());
-            state.roundQuestions = [...getL(1).slice(0,3), ...getL(2).slice(0,4), ...getL(3).slice(0,3)];
-            if(state.roundQuestions.length < 10) state.roundQuestions = MASTER_DB.slice(0,10);
-            state.qIdx = 0; state.combo = 0;
-            state.lifelines = { fifty: true, hint: true, skip: true };
-            renderLifelines();
-            document.getElementById('bet-screen').classList.add('hidden');
-            document.getElementById('game-screen').classList.remove('hidden');
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = state.roundQuestions[state.qIdx];
-            document.getElementById('q-progress').innerText = `שאלה ${state.qIdx + 1}/10`;
-            document.getElementById('q-text').innerText = q.q;
-            let opts = [q.a, ...q.w].sort(() => 0.5 - Math.random());
-            for(let i=0; i<4; i++) {
-                const c = document.getElementById(`opt-${i}`);
-                c.innerText = opts[i]; c.className = 'ans-card'; c.style.display = 'block';
-            }
-            startTimer();
-        }
-
-        function startTimer() {
-            let t = 100; const fill = document.getElementById('timer-fill');
+      function startTimer() {
+        let t = 100;
+        const fill = document.getElementById("timer-fill");
+        clearInterval(state.timer);
+        state.timer = setInterval(() => {
+          t -= 0.6;
+          fill.style.width = t + "%";
+          if (t <= 0) {
             clearInterval(state.timer);
-            state.timer = setInterval(() => {
-                t -= 0.6; fill.style.width = t + "%";
-                if(t <= 0) { clearInterval(state.timer); endRound(false, "אזל הזמן!"); }
-            }, 100);
-        }
+            endRound(false, "אזל הזמן!");
+          }
+        }, 100);
+      }
 
-        function checkAns(idx) {
-            clearInterval(state.timer);
-            const q = state.roundQuestions[state.qIdx];
-            const card = document.getElementById(`opt-${idx}`);
-            if(card.innerText === q.a) {
-                card.classList.add('correct'); state.combo++; spawnCoins(); talk('correct');
-                if(state.combo >= 6) document.getElementById('combo-tag').style.opacity = 1;
-                setTimeout(() => { state.qIdx++; if(state.qIdx >= 10) endRound(true); else loadQuestion(); }, 1200);
-            } else {
-                card.classList.add('wrong'); document.body.classList.add('shake'); talk('wrong');
-                setTimeout(() => { document.body.classList.remove('shake'); endRound(false); }, 1200);
-            }
+      function checkAns(idx) {
+        clearInterval(state.timer);
+        const q = state.roundQuestions[state.qIdx];
+        const card = document.getElementById(`opt-${idx}`);
+        if (card.innerText === q.a) {
+          card.classList.add("correct");
+          state.combo++;
+          spawnCoins();
+          talk("correct");
+          if (state.combo >= 6)
+            document.getElementById("combo-tag").style.opacity = 1;
+          setTimeout(() => {
+            state.qIdx++;
+            if (state.qIdx >= 10) endRound(true);
+            else loadQuestion();
+          }, 1200);
+        } else {
+          card.classList.add("wrong");
+          document.body.classList.add("shake");
+          talk("wrong");
+          setTimeout(() => {
+            document.body.classList.remove("shake");
+            endRound(false);
+          }, 1200);
         }
+      }
 
-        function use5050() {
-            if(!state.lifelines.fifty) return;
-            state.lifelines.fifty = false; renderLifelines();
-            const q = state.roundQuestions[state.qIdx]; let rem = 0;
-            for(let i=0; i<4; i++){
-                let c = document.getElementById(`opt-${i}`);
-                if(c.innerText !== q.a && rem < 2) { c.style.display = 'none'; rem++; }
-            }
+      function use5050() {
+        if (!state.lifelines.fifty) return;
+        state.lifelines.fifty = false;
+        renderLifelines();
+        const q = state.roundQuestions[state.qIdx];
+        let rem = 0;
+        for (let i = 0; i < 4; i++) {
+          const c = document.getElementById(`opt-${i}`);
+          if (c.innerText !== q.a && rem < 2) {
+            c.style.display = "none";
+            rem++;
+          }
         }
+      }
 
-        function useHint() {
-            if(!state.lifelines.hint) return;
-            state.lifelines.hint = false; renderLifelines();
-            const q = state.roundQuestions[state.qIdx];
-            document.getElementById('maggid-text').innerText = `רמז: ${q.hint || "תחשוב טוב..."}`;
-            document.getElementById('maggid-box').style.transform = 'translateY(0)';
-            setTimeout(() => document.getElementById('maggid-box').style.transform = 'translateY(-160%)', 5000);
+      function useHint() {
+        if (!state.lifelines.hint) return;
+        state.lifelines.hint = false;
+        renderLifelines();
+        const q = state.roundQuestions[state.qIdx];
+        document.getElementById("maggid-text").innerText =
+          `רמז: ${q.hint || "תחשוב טוב..."}`;
+        document.getElementById("maggid-box").style.transform = "translateY(0)";
+        setTimeout(
+          () =>
+            (document.getElementById("maggid-box").style.transform =
+              "translateY(-160%)"),
+          5000,
+        );
+      }
+
+      function useSkip() {
+        if (!state.lifelines.skip) return;
+        state.lifelines.skip = false;
+        renderLifelines();
+        state.qIdx++;
+        if (state.qIdx >= 10) endRound(true);
+        else loadQuestion();
+      }
+
+      function renderLifelines() {
+        document.getElementById("life-50").disabled = !state.lifelines.fifty;
+        document.getElementById("life-hint").disabled = !state.lifelines.hint;
+        document.getElementById("life-skip").disabled = !state.lifelines.skip;
+      }
+
+      function endRound(win, msg) {
+        clearInterval(state.timer);
+        document.getElementById("game-screen").classList.add("hidden");
+        document.getElementById("result-screen").classList.remove("hidden");
+        const s = document.getElementById("res-status");
+        if (win) {
+          const p = Math.floor(state.bet * (state.combo >= 8 ? 2.5 : 1.5));
+          state.balance += p;
+          s.innerText = "ניצחון!";
+          s.style.color = "var(--success)";
+          document.getElementById("res-msg").innerText =
+            `הרווחת $${p.toLocaleString()}`;
+        } else {
+          state.balance -= state.bet;
+          if (state.balance <= 0) state.balance = 500;
+          s.innerText = "הפסדת...";
+          s.style.color = "var(--fail)";
+          document.getElementById("res-msg").innerText = msg || "הזהב אבד.";
         }
+        updateUI();
+        document.getElementById("res-stats").innerHTML =
+          `<p>Combo: ${state.combo}</p><p>יתרה: $${state.balance.toLocaleString()}</p>`;
+      }
 
-        function useSkip() {
-            if(!state.lifelines.skip) return;
-            state.lifelines.skip = false; renderLifelines();
-            state.qIdx++; if(state.qIdx >= 10) endRound(true); else loadQuestion();
+      function spawnCoins() {
+        for (let i = 0; i < 15; i++) {
+          const c = document.createElement("div");
+          c.className = "coin";
+          c.innerText = "💰";
+          c.style.left = Math.random() * 100 + "vw";
+          c.style.top = "100vh";
+          document.body.appendChild(c);
+          c.animate(
+            [
+              { transform: "translateY(0)", opacity: 1 },
+              { transform: "translateY(-115vh) rotate(360deg)", opacity: 0 },
+            ],
+            2000,
+          ).onfinish = () => c.remove();
         }
+      }
 
-        function renderLifelines() {
-            document.getElementById('life-50').disabled = !state.lifelines.fifty;
-            document.getElementById('life-hint').disabled = !state.lifelines.hint;
-            document.getElementById('life-skip').disabled = !state.lifelines.skip;
-        }
-
-        function endRound(win, msg) {
-            clearInterval(state.timer);
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            const s = document.getElementById('res-status');
-            if(win) {
-                let p = Math.floor(state.bet * (state.combo >= 8 ? 2.5 : 1.5));
-                state.balance += p; s.innerText = "ניצחון!"; s.style.color = "var(--success)";
-                document.getElementById('res-msg').innerText = `הרווחת $${p.toLocaleString()}`;
-            } else {
-                state.balance -= state.bet; if(state.balance <= 0) state.balance = 500;
-                s.innerText = "הפסדת..."; s.style.color = "var(--fail)";
-                document.getElementById('res-msg').innerText = msg || "הזהב אבד.";
-            }
-            updateUI();
-            document.getElementById('res-stats').innerHTML = `<p>Combo: ${state.combo}</p><p>יתרה: $${state.balance.toLocaleString()}</p>`;
-        }
-
-        function spawnCoins() {
-            for(let i=0; i<15; i++) {
-                const c = document.createElement('div'); c.className = 'coin'; c.innerText = '💰';
-                c.style.left = Math.random() * 100 + 'vw'; c.style.top = '100vh';
-                document.body.appendChild(c);
-                c.animate([{transform:'translateY(0)', opacity:1}, {transform:'translateY(-115vh) rotate(360deg)', opacity:0}], 2000).onfinish = () => c.remove();
-            }
-        }
-
-        setInterval(() => { state.balance += 1; updateUI(); }, 60000);
-        window.onload = loadData;
+      setInterval(() => {
+        state.balance += 1;
+        updateUI();
+      }, 60000);
+      window.onload = loadData;
     </script>
-</body>
+  </body>
 </html>
